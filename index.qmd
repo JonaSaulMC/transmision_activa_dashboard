@@ -1,0 +1,40 @@
+---
+title: "Programa de Prevención & Control del Dengue | 2025"
+format: 
+  dashboard:
+      nav-buttons: [twitter, github, facebook]
+theme: custom.scss
+---
+
+```{r setup}
+library(sf)
+mapview::mapviewOptions(default = TRUE,
+                        basemaps.color.shuffle = FALSE)
+
+load("C:\\Users\\JonaSMC\\Documents\\geocodificacion_dengue_sinave_edo16\\3.geocoded_data\\dengue_edo16_2025.RData")
+library(magrittr)
+```
+
+# Mapas de Calor 
+
+:::panel-tabset
+
+### Morelia
+```{r mapa_de_calor_morelia}
+densnv::mp_heatmap(geocoded_datasets = z,
+                   cve_edo = "16",
+                   locality = c("Morelia"),
+                   status_caso = c(1, 2),
+                   week = c(1:53),
+                   zoom = NULL,
+                   map_type = NULL,
+                   alpha = 0.6,
+                   static = FALSE,
+                   palette = viridis::turbo)
+```
+
+
+# Vigilancia Entolomológica
+
+
+:::
