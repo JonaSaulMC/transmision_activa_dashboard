@@ -32,9 +32,180 @@ densnv::mp_heatmap(geocoded_datasets = z,
                    static = FALSE,
                    palette = viridis::turbo)
 ```
+### Zamora 
+```{r mapa_de_calor_zamora}
+densnv::mp_heatmap(geocoded_datasets = z,
+                   cve_edo = "16",
+                   locality = c("Zamora de Hidalgo"),
+                   status_caso = c(1, 2),
+                   week = c(1:53),
+                   zoom = NULL,
+                   map_type = NULL,
+                   alpha = 0.6,
+                   static = FALSE,
+                   palette = viridis::turbo)
 
 
-# Vigilancia Entolomológica
+```
+
+### Zitácuaro
+```{r mapa_de_calor_huetamo}
+densnv::mp_heatmap(geocoded_datasets = z,
+                   cve_edo = "16",
+                   locality = c("Huetamo de Núñez"),
+                   status_caso = c(1, 2),
+                   week = c(1:53),
+                   zoom = NULL,
+                   map_type = NULL,
+                   alpha = 0.6,
+                   static = FALSE,
+                   palette = viridis::turbo)
+
+```
+
+### Pátzcuaro
+```{r mapa_de_calor_tacambaro}
+densnv::mp_heatmap(geocoded_datasets = z,
+                   cve_edo = "16",
+                   locality = c("Tacámbaro de Codallos"),
+                   status_caso = c(1, 2),
+                   week = c(1:53),
+                   zoom = NULL,
+                   map_type = NULL,
+                   alpha = 0.6,
+                   static = FALSE,
+                   palette = viridis::turbo)
+
+```
+
+### Uruapan
+```{r mapa_de_calor_uruapan}
+densnv::mp_heatmap(geocoded_datasets = z,
+                   cve_edo = "16",
+                   locality = c("Uruapan"),
+                   status_caso = c(1, 2),
+                   week = c(1:53),
+                   zoom = NULL,
+                   map_type = NULL,
+                   alpha = 0.6,
+                   static = FALSE,
+                   palette = viridis::turbo)
+
+```
+
+### La Piedad
+```{r mapa_de_calor_la_piedad}
+densnv::mp_heatmap(geocoded_datasets = z,
+                   cve_edo = "16",
+                   locality = c("La Piedad de Cabadas"),
+                   status_caso = c(1, 2),
+                   week = c(1:53),
+                   zoom = NULL,
+                   map_type = NULL,
+                   alpha = 0.6,
+                   static = FALSE,
+                   palette = viridis::turbo)
+
+
+```
+
+### Apatzingán
+```{r mapa_de_calor_apatzingan}
+densnv::mp_heatmap(geocoded_datasets = z,
+                   cve_edo = "16",
+                   locality = c("Apatzigán de la Constitución"),
+                   status_caso = c(1, 2),
+                   week = c(1:53),
+                   zoom = NULL,
+                   map_type = NULL,
+                   alpha = 0.6,
+                   static = FALSE,
+                   palette = viridis::turbo)
+```
+
+### Lázaro Cárdenas
+```{r mapa_de_calor_lazaro}
+densnv::mp_heatmap(geocoded_datasets = z,
+                   cve_edo = "16",
+                   locality = c("Lázaro Cárdenas"),
+                   status_caso = c(1, 2),
+                   week = c(1:53),
+                   zoom = NULL,
+                   map_type = NULL,
+                   alpha = 0.6,
+                   static = FALSE,
+                   palette = viridis::turbo)
+
+```
+
+:::
+
+# Cadenas de Transmisión
+
+:::panel-tabset
+
+### Morelia
+```{r cadena_morelia}
+denhotspots::transmission_chains_map(geocoded_dataset = z,
+                                     cve_edo = "16",
+                                     locality = "Morelia",
+                                     dengue_cases = "Probable")
+
+```
+
+### Zamora
+```{r cadena_zamora}
+denhotspots::transmission_chains_map(geocoded_dataset = z,
+                                     cve_edo = "16",
+                                     locality = "Zamora de Hidalgo",
+                                     dengue_cases = "Probable")
+
+
+```
+
+### Zitácuaro
+```{r cadena_huetamo}
+denhotspots::transmission_chains_map(geocoded_dataset = z,
+                                     cve_edo = "16",
+                                     locality = "Huetamo de Núñez",
+                                     dengue_cases = "Probable")
+
+```
+
+### Uruapan
+```{r cadena_uruapan}
+denhotspots::transmission_chains_map(geocoded_dataset = z,
+                                     cve_edo = "16",
+                                     locality = "Uruapan",
+                                     dengue_cases = "Probable")
+
+```
+
+### La Piedad
+```{r cadena_la_piedad}
+denhotspots::transmission_chains_map(geocoded_dataset = z,
+                                     cve_edo = "16",
+                                     locality = "La Piedad de Cabadas",
+                                     dengue_cases = "Probable")
+```
+
+### Apatzingán
+```{r cadena_apatzingan}
+denhotspots::transmission_chains_map(geocoded_dataset = z,
+                                     cve_edo = "16",
+                                     locality = "Apatzingán de la Constitución",
+                                     dengue_cases = "Probable")
+
+```
+
+### Lázaro Cárdenas
+```{r cadena_lazaro}
+denhotspots::transmission_chains_map(geocoded_dataset = z,
+                                     cve_edo = "16",
+                                     locality = "Lázaro Cárdenas",
+                                     dengue_cases = "Probable")
+
+```
 
 
 :::
