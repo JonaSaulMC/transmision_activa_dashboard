@@ -1,5 +1,5 @@
 ---
-title: "Programa de Prevención & Control del Dengue | 2025"
+title: "Programa de Prevención & Control del Dengue Michoacán | 2025"
 format: 
   dashboard:
       nav-buttons: [twitter, github, facebook]
@@ -14,6 +14,398 @@ mapview::mapviewOptions(default = TRUE,
 load("C:\\Users\\JonaSMC\\Documents\\geocodificacion_dengue_sinave_edo16\\3.geocoded_data\\dengue_edo16_2025.RData")
 library(magrittr)
 ```
+
+# Localidades de Michoacán
+
+::: panel-tabset
+```{r localidades_riesgo_mich}
+
+x <- data.table::fread(input = "C:\\Users\\JonaSMC\\Documents\\R-2025\\Descargas_SINAVE\\DENGUE2_21_07_2025.txt",
+                       encoding = "Latin-1",
+                       quote="",
+                       fill=TRUE)
+
+densnv::mp_treemap(country = FALSE,
+                   year = 2025,
+                   cve_edo = "16",
+                   snv_dataset = x)
+
+```
+
+:::
+                       
+# Casos Serotipo por Municipio
+
+::: panel tabset
+```{r mapa_serotipo}
+library(sf)
+
+path_sinave <- "C:\\Users\\JonaSMC\\Documents\\geocodificacion_dengue_sinave_edo16\\1.data\\1.semana_actual_recientes\\DENGUE2_21_07_2025.txt"
+
+cve_edo = "16"
+palette = viridis::viridis
+
+x_serotipo <- data.table::fread(path_sinave,
+                                encoding = "Latin-1",
+                                quote="",
+                                fill=TRUE) |>
+    dplyr::filter(ESTATUS_CASO == 2) |>
+    dplyr::mutate(CVE_EDO_REP = stringr::str_pad(CVE_EDO_REP,
+                                                 width = 2,
+                                                 side = "left",
+                                                 pad = "0")) |>
+    dplyr::mutate(CVE_MPO_REP = stringr::str_pad(CVE_MPO_REP,
+                                                 width = 3,
+                                                 side = "left",
+                                                 pad = "0")) |>
+    dplyr::filter(DENGUE_SER_TRIPLEX %in% c(1:4)) |>
+    dplyr::filter(!is.na(DENGUE_SER_TRIPLEX)) |>
+    dplyr::summarise(n = dplyr::n(),
+                     .by = c(CVE_EDO_REP,
+                             CVE_MPO_REP,
+                             DENGUE_SER_TRIPLEX)) |>
+    tidyr::pivot_wider(id_cols = c(CVE_EDO_REP, CVE_MPO_REP),
+                       names_from = DENGUE_SER_TRIPLEX,
+                       values_from = n,
+                       names_prefix = "D",
+                       values_fill = 0) |>
+    dplyr::mutate(D1_binary = ifelse(D1 >0, 1, 0),
+                  D2_binary = ifelse(D2 >0, 1, 0),
+                  D3_binary = ifelse(D3 >0, 1, 0)) |>
+    dplyr::mutate(n_serotipo = D1_binary + D2_binary + D3_binary) |>
+    dplyr::mutate(D1_text = ifelse(D1 >0, "D1", ""),
+                  D2_text = ifelse(D2 >0, "D2", ""),
+                  D3_text = ifelse(D3 >0, "D3", "")) |>
+    dplyr::mutate(serotype_combination= paste(D1_text,
+                                              D2_text,
+                                              D3_text,
+                                              sep = "")) |>
+    dplyr::select(CVE_EDO_REP, CVE_MPO_REP,
+                  D1, D2, D3, 
+                  n_serotipo, serotype_combination) |>
+    dplyr::filter(CVE_EDO_REP %in% c(cve_edo))
+
+
+x_casos <- data.table::fread(path_sinave,
+                             encoding = "Latin-1",
+                             quote="",
+                             fill=TRUE) |>
+    dplyr::filter(ESTATUS_CASO == 2)  |>
+    dplyr::mutate(CVE_EDO_REP = stringr::str_pad(CVE_EDO_REP,
+                                                 width = 2,
+                                                 side = "left",
+                                                 pad = "0")) |>
+    dplyr::mutate(CVE_MPO_REP = stringr::str_pad(CVE_MPO_REP,
+                                                 width = 3,
+                                                 side = "left",
+                                                 pad = "0")) |>
+    dplyr::summarise(n = dplyr::n(),
+                     .by = c(CVE_EDO_REP, CVE_MPO_REP)) |>
+    dplyr::filter(CVE_EDO_REP %in% c(cve_edo))
+
+y <- rgeomex::AGEM_inegi19_mx |>
+    dplyr::filter(CVE_ENT  %in% c(cve_edo))
+
+xy_serotipo <- dplyr::left_join(x = y,
+                                y = x_serotipo,
+                                by = c("CVE_ENT" = "CVE_EDO_REP",
+                                       "CVE_MUN" = "CVE_MPO_REP")) |>
+    dplyr::filter(!is.na(D1))
+
+xy_casos <- dplyr::left_join(x = y,
+                             y = x_casos,
+                             by = c("CVE_ENT" = "CVE_EDO_REP",
+                                    "CVE_MUN" = "CVE_MPO_REP")) |>
+    dplyr::filter(!is.na(n))
+
+
+
+map <- mapview::mapview(y,
+                        col.regions = "gray90",
+                        layer.name = "Municipios") +
+    mapview::mapview(x = xy_casos,
+                     col.regions = "#2EB67D",
+                     layer.name = "Municipios Positivos") +
+    mapview::mapview(x = xy_casos,
+                     zcol = "n",
+                     col.regions = palette,
+                     layer.name = "Número de Casos")
+
+if(length(unique(xy_serotipo$n_serotipo)) == 4){
+    if(sum(unique(xy_serotipo$n_serotipo)) == 10){
+        mapview::mapview(x = xy_serotipo |>
+                             dplyr::filter(n_serotipo == 1),
+                         zcol = "serotype_combination",
+                         col.regions = palette,
+                         layer.name = "1 Serotipos") +
+            mapview::mapview(x = xy_serotipo |>
+                                 dplyr::filter(n_serotipo == 2),
+                             zcol = "serotype_combination",
+                             col.regions = palette,
+                             layer.name = "2 Serotipos") +
+            mapview::mapview(x = xy_serotipo |>
+                                 dplyr::filter(n_serotipo == 3),
+                             zcol = "serotype_combination",
+                             col.regions = palette,
+                             layer.name = "3 Serotipos") +
+            mapview::mapview(x = xy_serotipo |>
+                                 dplyr::filter(n_serotipo == 4),
+                             zcol = "serotype_combination",
+                             col.regions = "#E01E5A",
+                             layer.name = "4 Serotipos") + map
+    } else if(sum(unique(xy_serotipo$n_serotipo)) == 9){
+        mapview::mapview(x = xy_serotipo |>
+                             dplyr::filter(n_serotipo == 2),
+                         zcol = "serotype_combination",
+                         col.regions = palette,
+                         layer.name = "2 Serotipo")  +
+            mapview::mapview(x = xy_serotipo |>
+                                 dplyr::filter(n_serotipo == 3),
+                             zcol = "serotype_combination",
+                             col.regions = palette,
+                             layer.name = "3 Serotipos") +
+            mapview::mapview(x = xy_serotipo |>
+                                 dplyr::filter(n_serotipo == 4),
+                             zcol = "serotype_combination",
+                             col.regions = "#E01E5A",
+                             layer.name = "4 Serotipos") + map
+    } else if(sum(unique(xy_serotipo$n_serotipo)) == 8){
+        mapview::mapview(x = xy_serotipo |>
+                             dplyr::filter(n_serotipo == 1),
+                         zcol = "serotype_combination",
+                         col.regions = palette,
+                         layer.name = "1 Serotipo")  +
+            mapview::mapview(x = xy_serotipo |>
+                                 dplyr::filter(n_serotipo == 3),
+                             zcol = "serotype_combination",
+                             col.regions = palette,
+                             layer.name = "3 Serotipos") +
+            mapview::mapview(x = xy_serotipo |>
+                                 dplyr::filter(n_serotipo == 4),
+                             zcol = "serotype_combination",
+                             col.regions = "#E01E5A",
+                             layer.name = "4 Serotipos") + map
+        
+    } else if(sum(unique(xy_serotipo$n_serotipo)) == 7){
+        if(unique(x_serotipo$n_serotype) %in% c(4, 2, 1)){
+            mapview::mapview(x = xy_serotipo |>
+                                 dplyr::filter(n_serotipo == 1),
+                             zcol = "serotype_combination",
+                             col.regions = palette,
+                             layer.name = "1 Serotipo")  +
+                mapview::mapview(x = xy_serotipo |>
+                                     dplyr::filter(n_serotipo == 2),
+                                 zcol = "serotype_combination",
+                                 col.regions = palette,
+                                 layer.name = "2 Serotipos") +
+                mapview::mapview(x = xy_serotipo |>
+                                     dplyr::filter(n_serotipo == 4),
+                                 zcol = "serotype_combination",
+                                 col.regions = "#E01E5A",
+                                 layer.name = "4 Serotipos") + map
+        } else{
+            
+            mapview::mapview(x = xy_serotipo |>
+                                 dplyr::filter(n_serotipo == 3),
+                             zcol = "serotype_combination",
+                             col.regions = palette,
+                             layer.name = "3 Serotipos") +
+                mapview::mapview(x = xy_serotipo |>
+                                     dplyr::filter(n_serotipo == 4),
+                                 zcol = "serotype_combination",
+                                 col.regions = "#E01E5A",
+                                 layer.name = "4 Serotipos") + map
+            
+        }
+        
+    } else if(sum(unique(xy_serotipo$n_serotipo)) == 6){
+        mapview::mapview(x = xy_serotipo |>
+                             dplyr::filter(n_serotipo == 2),
+                         zcol = "serotype_combination",
+                         col.regions = palette,
+                         layer.name = "2 Serotipos") +
+            mapview::mapview(x = xy_serotipo |>
+                                 dplyr::filter(n_serotipo == 4),
+                             zcol = "serotype_combination",
+                             col.regions = "#E01E5A",
+                             layer.name = "4 Serotipos") + map
+    } else if(sum(unique(xy_serotipo$n_serotipo)) == 5){
+        mapview::mapview(x = xy_serotipo |>
+                             dplyr::filter(n_serotipo == 1),
+                         zcol = "serotype_combination",
+                         col.regions = palette,
+                         layer.name = "1 Serotipo")  +
+            mapview::mapview(x = xy_serotipo |>
+                                 dplyr::filter(n_serotipo == 4),
+                             zcol = "serotype_combination",
+                             col.regions = "#E01E5A",
+                             layer.name = "4 Serotipos") + map
+    } else if(sum(unique(xy_serotipo$n_serotipo)) == 4) {
+        mapview::mapview(x = xy_serotipo |>
+                             dplyr::filter(n_serotipo == 4),
+                         zcol = "serotype_combination",
+                         col.regions = "#E01E5A",
+                         layer.name = "4 Serotipos") + map
+    } else{
+        
+    }
+    
+} else if(length(unique(xy_serotipo$n_serotipo)) == 3){
+    
+    if(sum(unique(xy_serotipo$n_serotipo)) == 6){
+        mapview::mapview(x = xy_serotipo |>
+                             dplyr::filter(n_serotipo == 1),
+                         zcol = "serotype_combination",
+                         col.regions = palette,
+                         layer.name = "1 Serotipo")  +
+            mapview::mapview(x = xy_serotipo |>
+                                 dplyr::filter(n_serotipo == 2),
+                             zcol = "serotype_combination",
+                             col.regions = palette,
+                             layer.name = "2 Serotipos") +
+            mapview::mapview(x = xy_serotipo |>
+                                 dplyr::filter(n_serotipo == 3),
+                             zcol = "serotype_combination",
+                             col.regions = palette,
+                             layer.name = "3 Serotipos") + map
+    } else if(sum(unique(xy_serotipo$n_serotipo)) == 7){
+        mapview::mapview(x = xy_serotipo |>
+                             dplyr::filter(n_serotipo == 1),
+                         zcol = "serotype_combination",
+                         col.regions = palette,
+                         layer.name = "1 Serotipo")  +
+            mapview::mapview(x = xy_serotipo |>
+                                 dplyr::filter(n_serotipo == 2),
+                             zcol = "serotype_combination",
+                             col.regions = palette,
+                             layer.name = "2 Serotipos") +
+            mapview::mapview(x = xy_serotipo |>
+                                 dplyr::filter(n_serotipo == 4),
+                             zcol = "serotype_combination",
+                             col.regions = "#E01E5A",
+                             layer.name = "4 Serotipos") + map
+    } else if(sum(unique(xy_serotipo$n_serotipo)) == 8){
+        mapview::mapview(x = xy_serotipo |>
+                             dplyr::filter(n_serotipo == 1),
+                         zcol = "serotype_combination",
+                         col.regions = palette,
+                         layer.name = "1 Serotipo")  +
+            mapview::mapview(x = xy_serotipo |>
+                                 dplyr::filter(n_serotipo == 3),
+                             zcol = "serotype_combination",
+                             col.regions = palette,
+                             layer.name = "3 Serotipos") +
+            mapview::mapview(x = xy_serotipo |>
+                                 dplyr::filter(n_serotipo == 4),
+                             zcol = "serotype_combination",
+                             col.regions = "#E01E5A",
+                             layer.name = "4 Serotipos") + map
+    } else if(sum(unique(xy_serotipo$n_serotipo)) == 9){
+        mapview::mapview(x = xy_serotipo |>
+                             dplyr::filter(n_serotipo == 2),
+                         zcol = "serotype_combination",
+                         col.regions = palette,
+                         layer.name = "2 Serotipos")  +
+            mapview::mapview(x = xy_serotipo |>
+                                 dplyr::filter(n_serotipo == 3),
+                             zcol = "serotype_combination",
+                             col.regions = palette,
+                             layer.name = "3 Serotipos") +
+            mapview::mapview(x = xy_serotipo |>
+                                 dplyr::filter(n_serotipo == 4),
+                             zcol = "serotype_combination",
+                             col.regions = "#E01E5A",
+                             layer.name = "4 Serotipos") + map
+    } else{}
+    
+} else if(length(unique(xy_serotipo$n_serotipo)) == 2){
+    if(sum(unique(xy_serotipo$n_serotipo)) == 3){
+        mapview::mapview(x = xy_serotipo |>
+                             dplyr::filter(n_serotipo == 1),
+                         zcol = "serotype_combination",
+                         col.regions = palette,
+                         layer.name = "1 Serotipo")  +
+            mapview::mapview(x = xy_serotipo |>
+                                 dplyr::filter(n_serotipo == 2),
+                             zcol = "serotype_combination",
+                             col.regions = palette,
+                             layer.name = "2 Serotipos") + map
+    } else if(sum(unique(xy_serotipo$n_serotipo)) == 4){
+        mapview::mapview(x = xy_serotipo |>
+                             dplyr::filter(n_serotipo == 1),
+                         zcol = "serotype_combination",
+                         col.regions = palette,
+                         layer.name = "1 Serotipo")  +
+            mapview::mapview(x = xy_serotipo |>
+                                 dplyr::filter(n_serotipo == 3),
+                             zcol = "serotype_combination",
+                             col.regions = palette,
+                             layer.name = "3 Serotipos") + map
+    } else if(sum(unique(xy_serotipo$n_serotipo)) == 5){
+        if(max(unique(xy_serotipo$n_serotipo)) == 4){
+            mapview::mapview(x = xy_serotipo |>
+                                 dplyr::filter(n_serotipo == 1),
+                             zcol = "serotype_combination",
+                             col.regions = palette,
+                             layer.name = "1 Serotipo")  +
+                mapview::mapview(x = xy_serotipo |>
+                                     dplyr::filter(n_serotipo == 4),
+                                 zcol = "serotype_combination",
+                                 col.regions = "#E01E5A",
+                                 layer.name = "4 Serotipos") + map
+        } else{
+            mapview::mapview(x = xy_serotipo |>
+                                 dplyr::filter(n_serotipo == 2),
+                             zcol = "serotype_combination",
+                             col.regions = palette,
+                             layer.name = "2 Serotipos")  +
+                mapview::mapview(x = xy_serotipo |>
+                                     dplyr::filter(n_serotipo == 3),
+                                 zcol = "serotype_combination",
+                                 col.regions = palette,
+                                 layer.name = "3 Serotipos") + map
+            
+        }
+    } else if(sum(unique(xy_serotipo$n_serotipo)) == 6){
+        mapview::mapview(x = xy_serotipo |>
+                             dplyr::filter(n_serotipo == 2),
+                         zcol = "serotype_combination",
+                         col.regions = palette,
+                         layer.name = "2 Serotipos")  +
+            mapview::mapview(x = xy_serotipo |>
+                                 dplyr::filter(n_serotipo == 4),
+                             zcol = "serotype_combination",
+                             col.regions = "#E01E5A",
+                             layer.name = "4 Serotipos") + map
+    } else if(sum(unique(xy_serotipo$n_serotipo)) == 7){
+        mapview::mapview(x = xy_serotipo |>
+                             dplyr::filter(n_serotipo == 3),
+                         zcol = "serotype_combination",
+                         col.regions = palette,
+                         layer.name = "3 Serotipos") +
+            mapview::mapview(x = xy_serotipo |>
+                                 dplyr::filter(n_serotipo == 4),
+                             zcol = "serotype_combination",
+                             col.regions = "#E01E5A",
+                             layer.name = "4 Serotipos") + map
+        
+    } else {
+        
+    }
+    
+    
+} else if(length(unique(xy_serotipo$n_serotipo)) == 1){
+    mapview::mapview(x = xy_serotipo,
+                     zcol = "serotype_combination",
+                     col.regions = palette,
+                     layer.name = "1 Serotipo") + map
+} else {}
+
+
+
+```
+
+:::
 
 # Mapas de Calor 
 
@@ -189,14 +581,6 @@ denhotspots::transmission_chains_map(geocoded_dataset = z,
                                      dengue_cases = "Probable")
 ```
 
-### Apatzingán
-```{r cadena_apatzingan}
-denhotspots::transmission_chains_map(geocoded_dataset = z,
-                                     cve_edo = "16",
-                                     locality = "Apatzingán de la Constitución",
-                                     dengue_cases = "Probable")
-
-```
 
 ### Lázaro Cárdenas
 ```{r cadena_lazaro}
