@@ -18,9 +18,12 @@ library(magrittr)
 # Localidades de Michoacán
 
 ::: panel-tabset
+
+### Michoacán
+
 ```{r localidades_riesgo_mich}
 
-x <- data.table::fread(input = "C:\\Users\\JonaSMC\\Documents\\R-2025\\Descargas_SINAVE\\DENGUE2_21_07_2025.txt",
+x <- data.table::fread(input = "C:\\Users\\JonaSMC\\Documents\\R-2025\\Descargas_SINAVE\\DENGUE2_28_07_2025.txt",
                        encoding = "Latin-1",
                        quote="",
                        fill=TRUE)
@@ -31,16 +34,18 @@ densnv::mp_treemap(country = FALSE,
                    snv_dataset = x)
 
 ```
-
 :::
                        
 # Casos Serotipo por Municipio
 
-::: panel tabset
+::: panel-tabset
+
+### Michoacán
+
 ```{r mapa_serotipo}
 library(sf)
 
-path_sinave <- "C:\\Users\\JonaSMC\\Documents\\geocodificacion_dengue_sinave_edo16\\1.data\\1.semana_actual_recientes\\DENGUE2_21_07_2025.txt"
+path_sinave <- "C:\\Users\\JonaSMC\\Documents\\geocodificacion_dengue_sinave_edo16\\1.data\\1.semana_actual_recientes\\DENGUE2_28_07_2025.txt"
 
 cve_edo = "16"
 palette = viridis::viridis
@@ -404,8 +409,8 @@ if(length(unique(xy_serotipo$n_serotipo)) == 4){
 
 
 ```
-
 :::
+
 
 # Mapas de Calor 
 
@@ -581,6 +586,14 @@ denhotspots::transmission_chains_map(geocoded_dataset = z,
                                      dengue_cases = "Probable")
 ```
 
+### Apatzingán
+```{r cadena _apatzingan}
+denhotspots::transmission_chains_map(geocoded_dataset = z,
+                                     cve_edo = "16",
+                                     locality = "Apatzingán de la Constitución",
+                                     dengue_cases = "Probable")
+```
+
 
 ### Lázaro Cárdenas
 ```{r cadena_lazaro}
@@ -590,6 +603,5 @@ denhotspots::transmission_chains_map(geocoded_dataset = z,
                                      dengue_cases = "Probable")
 
 ```
-
 
 :::
