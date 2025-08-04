@@ -23,7 +23,7 @@ library(magrittr)
 
 ```{r localidades_riesgo_mich}
 
-x <- data.table::fread(input = "C:\\Users\\JonaSMC\\Documents\\R-2025\\Descargas_SINAVE\\DENGUE2_28_07_2025.txt",
+x <- data.table::fread(input = "C:\\Users\\JonaSMC\\Documents\\R-2025\\Descargas_SINAVE\\DENGUE2_04_08_2025.txt",
                        encoding = "Latin-1",
                        quote="",
                        fill=TRUE)
@@ -32,6 +32,25 @@ densnv::mp_treemap(country = FALSE,
                    year = 2025,
                    cve_edo = "16",
                    snv_dataset = x)
+
+```
+
+### Casos por Institución
+```{r casos_institucion}
+library(formattable)
+library(dplyr)
+path_sinave <- "C:\\Users\\JonaSMC\\Documents\\R-2025\\Descargas_SINAVE\\DENGUE2_04_08_2025.txt"
+
+x <- data.table::fread(path_sinave,
+                       #select = vect_cols2,
+                       encoding = "Latin-1",
+                       quote="",
+                       fill=TRUE) 
+
+boldenr::tb_conf(x = x,
+                 inst = T,
+                 year = 2025,
+                 state = "MICHOACAN")
 
 ```
 :::
@@ -45,7 +64,7 @@ densnv::mp_treemap(country = FALSE,
 ```{r mapa_serotipo}
 library(sf)
 
-path_sinave <- "C:\\Users\\JonaSMC\\Documents\\geocodificacion_dengue_sinave_edo16\\1.data\\1.semana_actual_recientes\\DENGUE2_28_07_2025.txt"
+path_sinave <- "C:\\Users\\JonaSMC\\Documents\\geocodificacion_dengue_sinave_edo16\\1.data\\1.semana_actual_recientes\\DENGUE2_04_08_2025.txt"
 
 cve_edo = "16"
 palette = viridis::viridis
@@ -593,7 +612,6 @@ denhotspots::transmission_chains_map(geocoded_dataset = z,
                                      locality = "Apatzingán de la Constitución",
                                      dengue_cases = "Probable")
 ```
-
 
 ### Lázaro Cárdenas
 ```{r cadena_lazaro}
