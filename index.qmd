@@ -23,7 +23,7 @@ library(magrittr)
 
 ```{r localidades_riesgo_mich}
 
-x <- data.table::fread(input = "C:\\Users\\JonaSMC\\Documents\\R-2025\\Descargas_SINAVE\\DENGUE2_04_08_2025.txt",
+x <- data.table::fread(input = "C:\\Users\\JonaSMC\\Documents\\R-2025\\Descargas_SINAVE\\DENGUE2_11_08_2025.txt",
                        encoding = "Latin-1",
                        quote="",
                        fill=TRUE)
@@ -39,7 +39,7 @@ densnv::mp_treemap(country = FALSE,
 ```{r casos_institucion}
 library(formattable)
 library(dplyr)
-path_sinave <- "C:\\Users\\JonaSMC\\Documents\\R-2025\\Descargas_SINAVE\\DENGUE2_04_08_2025.txt"
+path_sinave <- "C:\\Users\\JonaSMC\\Documents\\R-2025\\Descargas_SINAVE\\DENGUE2_11_08_2025.txt"
 
 x <- data.table::fread(path_sinave,
                        #select = vect_cols2,
@@ -64,7 +64,7 @@ boldenr::tb_conf(x = x,
 ```{r mapa_serotipo}
 library(sf)
 
-path_sinave <- "C:\\Users\\JonaSMC\\Documents\\geocodificacion_dengue_sinave_edo16\\1.data\\1.semana_actual_recientes\\DENGUE2_04_08_2025.txt"
+path_sinave <- "C:\\Users\\JonaSMC\\Documents\\geocodificacion_dengue_sinave_edo16\\1.data\\1.semana_actual_recientes\\DENGUE2_11_08_2025.txt"
 
 cve_edo = "16"
 palette = viridis::viridis
