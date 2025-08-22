@@ -437,11 +437,12 @@ if(length(unique(xy_serotipo$n_serotipo)) == 4){
 
 ### Morelia
 ```{r mapa_de_calor_morelia}
-densnv::mp_heatmap(geocoded_datasets = z,
+densnv::mp_heatmap(geocoded_dataset = z,
                    cve_edo = "16",
                    locality = c("Morelia"),
                    status_caso = c(1, 2),
                    week = c(1:53),
+                    kernel = 00,
                    zoom = NULL,
                    map_type = NULL,
                    alpha = 0.6,
@@ -450,11 +451,12 @@ densnv::mp_heatmap(geocoded_datasets = z,
 ```
 ### Zamora 
 ```{r mapa_de_calor_zamora}
-densnv::mp_heatmap(geocoded_datasets = z,
+densnv::mp_heatmap(geocoded_dataset = z,
                    cve_edo = "16",
                    locality = c("Zamora de Hidalgo"),
                    status_caso = c(1, 2),
                    week = c(1:53),
+                    kernel = 00,
                    zoom = NULL,
                    map_type = NULL,
                    alpha = 0.6,
@@ -466,11 +468,12 @@ densnv::mp_heatmap(geocoded_datasets = z,
 
 ### Zitácuaro
 ```{r mapa_de_calor_huetamo}
-densnv::mp_heatmap(geocoded_datasets = z,
+densnv::mp_heatmap(geocoded_dataset = z,
                    cve_edo = "16",
                    locality = c("Huetamo de Núñez"),
                    status_caso = c(1, 2),
                    week = c(1:53),
+                    kernel = 00,
                    zoom = NULL,
                    map_type = NULL,
                    alpha = 0.6,
@@ -481,11 +484,12 @@ densnv::mp_heatmap(geocoded_datasets = z,
 
 ### Pátzcuaro
 ```{r mapa_de_calor_tacambaro}
-densnv::mp_heatmap(geocoded_datasets = z,
+densnv::mp_heatmap(geocoded_dataset = z,
                    cve_edo = "16",
                    locality = c("Tacámbaro de Codallos"),
                    status_caso = c(1, 2),
                    week = c(1:53),
+                    kernel = 00,
                    zoom = NULL,
                    map_type = NULL,
                    alpha = 0.6,
@@ -496,11 +500,12 @@ densnv::mp_heatmap(geocoded_datasets = z,
 
 ### Uruapan
 ```{r mapa_de_calor_uruapan}
-densnv::mp_heatmap(geocoded_datasets = z,
+densnv::mp_heatmap(geocoded_dataset = z,
                    cve_edo = "16",
                    locality = c("Uruapan"),
                    status_caso = c(1, 2),
                    week = c(1:53),
+                    kernel = 00,
                    zoom = NULL,
                    map_type = NULL,
                    alpha = 0.6,
@@ -511,11 +516,12 @@ densnv::mp_heatmap(geocoded_datasets = z,
 
 ### La Piedad
 ```{r mapa_de_calor_la_piedad}
-densnv::mp_heatmap(geocoded_datasets = z,
+densnv::mp_heatmap(geocoded_dataset = z,
                    cve_edo = "16",
                    locality = c("La Piedad de Cabadas"),
                    status_caso = c(1, 2),
                    week = c(1:53),
+                    kernel = 00,
                    zoom = NULL,
                    map_type = NULL,
                    alpha = 0.6,
@@ -527,11 +533,12 @@ densnv::mp_heatmap(geocoded_datasets = z,
 
 ### Apatzingán
 ```{r mapa_de_calor_apatzingan}
-densnv::mp_heatmap(geocoded_datasets = z,
+densnv::mp_heatmap(geocoded_dataset = z,
                    cve_edo = "16",
                    locality = c("Apatzigán de la Constitución"),
                    status_caso = c(1, 2),
                    week = c(1:53),
+                    kernel = 00,
                    zoom = NULL,
                    map_type = NULL,
                    alpha = 0.6,
@@ -541,11 +548,12 @@ densnv::mp_heatmap(geocoded_datasets = z,
 
 ### Lázaro Cárdenas
 ```{r mapa_de_calor_lazaro}
-densnv::mp_heatmap(geocoded_datasets = z,
+densnv::mp_heatmap(geocoded_dataset = z,
                    cve_edo = "16",
                    locality = c("Lázaro Cárdenas"),
                    status_caso = c(1, 2),
                    week = c(1:53),
+                    kernel = 00,
                    zoom = NULL,
                    map_type = NULL,
                    alpha = 0.6,
