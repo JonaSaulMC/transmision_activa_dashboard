@@ -13,6 +13,10 @@ mapview::mapviewOptions(default = TRUE,
 
 load("C:\\Users\\JonaSMC\\Documents\\geocodificacion_dengue_sinave_edo16\\3.geocoded_data\\dengue_edo16_2025.RData")
 library(magrittr)
+path_vect <- "C:\\Users\\JonaSMC\\Documents\\R-2025\\16_Mich"
+
+path_coord <- paste(path_vect, "DescargaOvitrampasMesFco.txt", sep = "/")
+
 ```
 
 # Localidades de Michoacán
@@ -23,7 +27,7 @@ library(magrittr)
 
 ```{r localidades_riesgo_mich}
 
-x <- data.table::fread(input = "C:\\Users\\JonaSMC\\Documents\\R-2025\\Descargas_SINAVE\\DENGUE2_19_08_2025.txt",
+x <- data.table::fread(input = "C:\\Users\\JonaSMC\\Documents\\R-2025\\Descargas_SINAVE\\DENGUE2_26_08_2025.txt",
                        encoding = "Latin-1",
                        quote="",
                        fill=TRUE)
@@ -39,7 +43,7 @@ densnv::mp_treemap(country = FALSE,
 ```{r casos_institucion}
 library(formattable)
 library(dplyr)
-path_sinave <- "C:\\Users\\JonaSMC\\Documents\\R-2025\\Descargas_SINAVE\\DENGUE2_19_08_2025.txt"
+path_sinave <- "C:\\Users\\JonaSMC\\Documents\\R-2025\\Descargas_SINAVE\\DENGUE2_26_08_2025.txt"
 
 x <- data.table::fread(path_sinave,
                        #select = vect_cols2,
@@ -64,7 +68,7 @@ boldenr::tb_conf(x = x,
 ```{r mapa_serotipo}
 library(sf)
 
-path_sinave <- "C:\\Users\\JonaSMC\\Documents\\geocodificacion_dengue_sinave_edo16\\1.data\\1.semana_actual_recientes\\DENGUE2_19_08_2025.txt"
+path_sinave <- "C:\\Users\\JonaSMC\\Documents\\geocodificacion_dengue_sinave_edo16\\1.data\\1.semana_actual_recientes\\DENGUE2_26_08_2025.txt"
 
 cve_edo = "16"
 palette = viridis::viridis
@@ -627,6 +631,87 @@ denhotspots::transmission_chains_map(geocoded_dataset = z,
                                      cve_edo = "16",
                                      locality = "Lázaro Cárdenas",
                                      dengue_cases = "Probable")
+
+```
+
+:::
+
+# Riesgo Entomológico
+
+:::panel-tabset
+
+### Morelia
+```{r riesgo_morelia}
+deneggs::eggs_risk(path_vect = path_vect,
+                   path_coord = path_coord,
+                   weeks = 34,
+                   locality = "Morelia",
+                   risk = FALSE)
+```
+
+### Zamora
+```{r riesgo_zamora}
+deneggs::eggs_risk(path_vect = path_vect,
+                   path_coord = path_coord,
+                   weeks = 34,
+                   locality = "Zamora De Hidalgo",
+                   risk = FALSE)
+
+```
+
+### Zitácuaro
+```{r riesgo_zitacuaro}
+deneggs::eggs_risk(path_vect = path_vect,
+                   path_coord = path_coord,
+                   weeks = 34,
+                   locality = "Huetamo De Núñez",
+                   risk = FALSE)
+```
+
+### Tacámbaro de Codallos
+```{r riesgo_tacamnbaro}
+deneggs::eggs_risk(path_vect = path_vect,
+                   path_coord = path_coord,
+                   weeks = 34,
+                   locality = "Tacámbaro De Codallos",
+                   risk = FALSE)
+```
+
+### Uruapan
+```{r riesgo_uruapan}
+deneggs::eggs_risk(path_vect = path_vect,
+                   path_coord = path_coord,
+                   weeks = 34,
+                   locality = "Uruapan",
+                   risk = FALSE)
+```
+
+### La Piedad
+```{r riesgo_lapiedad}
+deneggs::eggs_risk(path_vect = path_vect,
+                   path_coord = path_coord,
+                   weeks = 34,
+                   locality = "La Piedad De Cabadas",
+                   risk = FALSE)
+```
+
+### Apatzingán
+```{r riesgo_apatzingan}
+deneggs::eggs_risk(path_vect = path_vect,
+                   path_coord = path_coord,
+                   weeks = 34,
+                   locality = "Apatzingán De La Constitución",
+                   risk = FALSE)
+
+```
+
+### Lázaro Cárdenas
+```{r riesgo_lazaro}
+deneggs::eggs_risk(path_vect = path_vect,
+                   path_coord = path_coord,
+                   weeks = 34,
+                   locality = "Ciudad Lázaro Cárdenas",
+                   risk = FALSE)
 
 ```
 
