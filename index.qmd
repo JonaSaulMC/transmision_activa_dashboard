@@ -27,7 +27,7 @@ path_coord <- paste(path_vect, "DescargaOvitrampasMesFco.txt", sep = "/")
 
 ```{r localidades_riesgo_mich}
 
-x <- data.table::fread(input = "C:\\Users\\JonaSMC\\Documents\\R-2025\\Descargas_SINAVE\\DENGUE2_01_09_2025.txt",
+x <- data.table::fread(input = "C:\\Users\\JonaSMC\\Documents\\R-2025\\Descargas_SINAVE\\DENGUE2_08_09_2025.txt",
                        encoding = "Latin-1",
                        quote="",
                        fill=TRUE)
@@ -43,7 +43,7 @@ densnv::mp_treemap(country = FALSE,
 ```{r casos_institucion}
 library(formattable)
 library(dplyr)
-path_sinave <- "C:\\Users\\JonaSMC\\Documents\\R-2025\\Descargas_SINAVE\\DENGUE2_01_09_2025.txt"
+path_sinave <- "C:\\Users\\JonaSMC\\Documents\\R-2025\\Descargas_SINAVE\\DENGUE2_08_09_2025.txt"
 
 x <- data.table::fread(path_sinave,
                        #select = vect_cols2,
@@ -60,7 +60,7 @@ boldenr::tb_conf(x = x,
 
 ### Grupo Etario
 ```{r grupo_etario}
-path_sinave <-  "C:\\Users\\JonaSMC\\Documents\\R-2025\\Descargas_SINAVE\\DENGUE2_01_09_2025.txt"
+path_sinave <-  "C:\\Users\\JonaSMC\\Documents\\R-2025\\Descargas_SINAVE\\DENGUE2_08_09_2025.txt"
 
 x <- data.table::fread(path_sinave,
                        #select = vect_cols2,
@@ -90,7 +90,7 @@ boldenr::pyramid_plot(x = x,
 ```{r mapa_serotipo}
 library(sf)
 
-path_sinave <- "C:\\Users\\JonaSMC\\Documents\\geocodificacion_dengue_sinave_edo16\\1.data\\1.semana_actual_recientes\\DENGUE2_01_09_2025.txt"
+path_sinave <- "C:\\Users\\JonaSMC\\Documents\\geocodificacion_dengue_sinave_edo16\\1.data\\1.semana_actual_recientes\\DENGUE2_08_09_2025.txt"
 
 cve_edo = "16"
 palette = viridis::viridis
@@ -622,6 +622,15 @@ denhotspots::transmission_chains_map(geocoded_dataset = z,
 
 ```
 
+### Tacámbaro de Codallos
+```{r cadena tacambaro}
+denhotspots::transmission_chains_map(geocoded_dataset = z,
+                                     cve_edo = "16",
+                                     locality = "Tacámbaro de Codallos",
+                                     dengue_cases = "Probable")
+
+```
+
 ### Uruapan
 ```{r cadena_uruapan}
 denhotspots::transmission_chains_map(geocoded_dataset = z,
@@ -666,7 +675,7 @@ denhotspots::transmission_chains_map(geocoded_dataset = z,
 ```{r riesgo_morelia}
 deneggs::eggs_risk(path_vect = path_vect,
                    path_coord = path_coord,
-                   weeks = 35,
+                   weeks = 36,
                    locality = "Morelia",
                    risk = FALSE)
 ```
@@ -675,7 +684,7 @@ deneggs::eggs_risk(path_vect = path_vect,
 ```{r riesgo_zamora}
 deneggs::eggs_risk(path_vect = path_vect,
                    path_coord = path_coord,
-                   weeks = 35,
+                   weeks = 36,
                    locality = "Zamora De Hidalgo",
                    risk = FALSE)
 
@@ -685,7 +694,7 @@ deneggs::eggs_risk(path_vect = path_vect,
 ```{r riesgo_zitacuaro}
 deneggs::eggs_risk(path_vect = path_vect,
                    path_coord = path_coord,
-                   weeks = 35,
+                   weeks = 36,
                    locality = "Huetamo De Núñez",
                    risk = FALSE)
 ```
@@ -694,7 +703,7 @@ deneggs::eggs_risk(path_vect = path_vect,
 ```{r riesgo_tacamnbaro}
 deneggs::eggs_risk(path_vect = path_vect,
                    path_coord = path_coord,
-                   weeks = 35,
+                   weeks = 36,
                    locality = "Tacámbaro De Codallos",
                    risk = FALSE)
 ```
@@ -703,7 +712,7 @@ deneggs::eggs_risk(path_vect = path_vect,
 ```{r riesgo_uruapan}
 deneggs::eggs_risk(path_vect = path_vect,
                    path_coord = path_coord,
-                   weeks = 35,
+                   weeks = 36,
                    locality = "Uruapan",
                    risk = FALSE)
 ```
@@ -712,7 +721,7 @@ deneggs::eggs_risk(path_vect = path_vect,
 ```{r riesgo_lapiedad}
 deneggs::eggs_risk(path_vect = path_vect,
                    path_coord = path_coord,
-                   weeks = 35,
+                   weeks = 36,
                    locality = "La Piedad De Cabadas",
                    risk = FALSE)
 ```
@@ -721,7 +730,7 @@ deneggs::eggs_risk(path_vect = path_vect,
 ```{r riesgo_apatzingan}
 deneggs::eggs_risk(path_vect = path_vect,
                    path_coord = path_coord,
-                   weeks = 35,
+                   weeks = 36,
                    locality = "Apatzingán De La Constitución",
                    risk = FALSE)
 
@@ -731,7 +740,7 @@ deneggs::eggs_risk(path_vect = path_vect,
 ```{r riesgo_lazaro}
 deneggs::eggs_risk(path_vect = path_vect,
                    path_coord = path_coord,
-                   weeks = 35,
+                   weeks = 36,
                    locality = "Ciudad Lázaro Cárdenas",
                    risk = FALSE)
 
