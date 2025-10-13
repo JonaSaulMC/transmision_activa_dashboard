@@ -1,0 +1,34 @@
+- 
+```{r}
+# Librerías
+library(data.table)
+...
+-```
+
+
+# Librerías
+library(data.table)
+library(lubridate)
+library(dplyr)
+library(stringr)
+library(sf)
+library(tidyr)
+library(tidyverse)
+
+# Semana epidemiológica
+semana_actual <- epiweek(Sys.Date())
+semana_analizada <- semana_actual - 1
+
+# Ruta de archivos
+path_vect <- "C:/Users/JonaSMC/Documents/R-2025/16_Mich"
+path_coord <- file.path(path_vect, "DescargaOvitrampasMesFco.txt")
+
+# Archivo SINAVE más reciente
+path_sinave <- "C:/Users/JonaSMC/Documents/R-2025/Descargas_SINAVE/DENGUE2_06_10_2025.txt"
+x_raw <- fread(path_sinave, encoding = "Latin-1", quote = "", fill = TRUE)
+
+# Archivo georreferenciado
+load("C:/Users/JonaSMC/Documents/geocodificacion_dengue_sinave_edo16/3.geocoded_data/dengue_edo16_2025.RData")
+
+# Paleta para mapas
+palette <- viridis::viridis

@@ -1,0 +1,74 @@
+---
+title: "Casos por Institución, Grupo Etario y Localidades de Riesgo"
+execute:
+  freeze: false
+---
+
+
+```{r setup, include=FALSE}
+library(htmlwidgets)
+library(plotly)
+library(leaflet)
+
+if (file.exists("data/x_raw.RData")) {
+  load("data/x_raw.RData")
+} else {
+  stop("❌ El archivo data/x_raw.RData no existe. Ejecuta setup.R antes de renderizar.")
+}
+
+if (file.exists("data/x_serotipo.RData")) {
+  load("data/x_serotipo.RData")
+} else {
+  stop("❌ El archivo data/x_serotipo.RData no existe. Ejecuta setup.R antes de renderizar.")
+}
+```
+
+## Casos confirmados
+
+::: {.panel-tabset}
+
+### Por institución
+```{r, echo=FALSE}
+library(formattable)
+
+boldenr::tb_conf(
+  x = x_raw,
+  inst = TRUE,
+  year = 2025,
+  state = "MICHOACAN"
+)
+
+```
+
+### Por grupo etario
+```{r, echo=FALSE}
+library(ggplot2)
+
+grafico_piramide <- boldenr::pyramid_plot(
+  x = x_raw,
+  by_juris = FALSE,
+  state = "MICHOACAN",
+  pal = "Set1",
+  year = 2025
+)
+
+grafico_piramide
+
+```
+
+### Por localidad
+```{r, echo=FALSE}
+grafico_treemap <- densnv::mp_treemap(
+  country = FALSE,
+  year = 2025,
+  cve_edo = "16",
+  snv_dataset = x_raw
+)
+
+grafico_treemap
+
+```
+
+:::
+
+<img src="figs/banner_inicio.png" width="100%" style="margin-top:40px;" />

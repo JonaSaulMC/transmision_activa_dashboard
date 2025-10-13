@@ -1,0 +1,86 @@
+[
+  {
+    "objectID": "transmision25.html",
+    "href": "transmision25.html",
+    "title": "Mapas de Calor, Cadenas de Transmisión y Riesgo Entomológico",
+    "section": "",
+    "text": "Mapa de Calor Estatal"
+  },
+  {
+    "objectID": "transmision25.html#mapa-de-calor",
+    "href": "transmision25.html#mapa-de-calor",
+    "title": "Mapas de Calor, Cadenas de Transmisión y Riesgo Entomológico",
+    "section": "",
+    "text": "Mapa de Calor Estatal"
+  },
+  {
+    "objectID": "transmision25.html#cadenas-de-transmisión",
+    "href": "transmision25.html#cadenas-de-transmisión",
+    "title": "Mapas de Calor, Cadenas de Transmisión y Riesgo Entomológico",
+    "section": "Cadenas de Transmisión",
+    "text": "Cadenas de Transmisión\n\nMoreliaZamora de HidalgoHuetamo de NúñezTacámbaro de CodallosUruapanLa Piedad de CabadasApatzingán de la ConstituciónLázaro Cárdenas"
+  },
+  {
+    "objectID": "transmision25.html#riesgo-entomológico",
+    "href": "transmision25.html#riesgo-entomológico",
+    "title": "Mapas de Calor, Cadenas de Transmisión y Riesgo Entomológico",
+    "section": "Riesgo Entomológico",
+    "text": "Riesgo Entomológico\n\nMoreliaZamora de HidalgoHuetamo de NúñezTacámbaro de CodallosUruapanLa Piedad de CabadasApatzingán de la ConstituciónCiudad Lázaro Cárdenas"
+  },
+  {
+    "objectID": "setup.html",
+    "href": "setup.html",
+    "title": "Librerías",
+    "section": "",
+    "text": "library(data.table) … -```\n\n\nLibrerías\nlibrary(data.table) library(lubridate) library(dplyr) library(stringr) library(sf) library(tidyr) library(tidyverse)\n\n\nSemana epidemiológica\nsemana_actual &lt;- epiweek(Sys.Date()) semana_analizada &lt;- semana_actual - 1\n\n\nRuta de archivos\npath_vect &lt;- “C:/Users/JonaSMC/Documents/R-2025/16_Mich” path_coord &lt;- file.path(path_vect, “DescargaOvitrampasMesFco.txt”)\n\n\nArchivo SINAVE más reciente\npath_sinave &lt;- “C:/Users/JonaSMC/Documents/R-2025/Descargas_SINAVE/DENGUE2_06_10_2025.txt” x_raw &lt;- fread(path_sinave, encoding = “Latin-1”, quote = ““, fill = TRUE)\n\n\nArchivo georreferenciado\nload(“C:/Users/JonaSMC/Documents/geocodificacion_dengue_sinave_edo16/3.geocoded_data/dengue_edo16_2025.RData”)\n\n\nPaleta para mapas\npalette &lt;- viridis::viridis"
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Programa de Prevención y Control del Dengue | Michoacán 2025",
+    "section": "",
+    "text": "Este sistema de monitoreo epidemiológico ha sido desarrollado por el Departamento de Control de Enfermedades Transmitidas por Vector y Zoonosis y la Unidad de Investigación Entomológica y Bioensayos Michoacán, con el objetivo de fortalecer la vigilancia, análisis y respuesta ante los casos de dengue en el estado. A través de visualizaciones interactivas y datos actualizados semanalmente, el dashboard permite:\n\nIdentificar tendencias por institución y grupo etario\nAnalizar la distribución de serotipos por municipio\nExplorar mapas de calor y cadenas de transmisión georreferenciadas\nEvaluar el riesgo entomológico en localidades clave\n\nLa información presentada está basada en registros del Sistema Nacional de Vigilancia Epidemiológica (SINAVE), datos georreferenciados y reportes de ovitrampas. El sistema se actualiza cada lunes y está diseñado para apoyar la toma de decisiones por parte del personal de coordinación estatal y jurisdiccional.\nÚltima semana analizada: Semana epidemiológica 41 Fuente principal: SINAVE, Sistema Integral de Monitoreo de Vectores"
+  },
+  {
+    "objectID": "index.html#secretaría-de-salud-de-michoacán-temporada-2025",
+    "href": "index.html#secretaría-de-salud-de-michoacán-temporada-2025",
+    "title": "Programa de Prevención y Control del Dengue | Michoacán 2025",
+    "section": "",
+    "text": "Este sistema de monitoreo epidemiológico ha sido desarrollado por el Departamento de Control de Enfermedades Transmitidas por Vector y Zoonosis y la Unidad de Investigación Entomológica y Bioensayos Michoacán, con el objetivo de fortalecer la vigilancia, análisis y respuesta ante los casos de dengue en el estado. A través de visualizaciones interactivas y datos actualizados semanalmente, el dashboard permite:\n\nIdentificar tendencias por institución y grupo etario\nAnalizar la distribución de serotipos por municipio\nExplorar mapas de calor y cadenas de transmisión georreferenciadas\nEvaluar el riesgo entomológico en localidades clave\n\nLa información presentada está basada en registros del Sistema Nacional de Vigilancia Epidemiológica (SINAVE), datos georreferenciados y reportes de ovitrampas. El sistema se actualiza cada lunes y está diseñado para apoyar la toma de decisiones por parte del personal de coordinación estatal y jurisdiccional.\nÚltima semana analizada: Semana epidemiológica 41 Fuente principal: SINAVE, Sistema Integral de Monitoreo de Vectores"
+  },
+  {
+    "objectID": "casos.html",
+    "href": "casos.html",
+    "title": "Casos por Institución, Grupo Etario y Localidades de Riesgo",
+    "section": "",
+    "text": "Por instituciónPor grupo etarioPor localidad\n\n\n\n\n\n\n\n\nInstituciones\n\n\nDCSA\n\n\nDG\n\n\nDNG\n\n\nTotal\n\n\n\n\n\n\nIMSS \n\n\n152\n\n\n10\n\n\n82\n\n\n244\n\n\n\n\nIMSS BIENESTAR \n\n\n44\n\n\n1\n\n\n20\n\n\n65\n\n\n\n\nIMSS_OPD \n\n\n138\n\n\n6\n\n\n301\n\n\n445\n\n\n\n\nISSSTE \n\n\n8\n\n\n1\n\n\n21\n\n\n30\n\n\n\n\nNOTIFICANTE VOLUNTARIO\n\n\n10\n\n\n0\n\n\n16\n\n\n26\n\n\n\n\nPRIVADO \n\n\n2\n\n\n0\n\n\n0\n\n\n2\n\n\n\n\nSEDENA \n\n\n1\n\n\n0\n\n\n1\n\n\n2\n\n\n\n\nSEMAR \n\n\n2\n\n\n0\n\n\n0\n\n\n2\n\n\n\n\nSSA \n\n\n46\n\n\n8\n\n\n19\n\n\n73"
+  },
+  {
+    "objectID": "casos.html#casos-confirmados",
+    "href": "casos.html#casos-confirmados",
+    "title": "Casos por Institución, Grupo Etario y Localidades de Riesgo",
+    "section": "",
+    "text": "Por instituciónPor grupo etarioPor localidad\n\n\n\n\n\n\n\n\nInstituciones\n\n\nDCSA\n\n\nDG\n\n\nDNG\n\n\nTotal\n\n\n\n\n\n\nIMSS \n\n\n152\n\n\n10\n\n\n82\n\n\n244\n\n\n\n\nIMSS BIENESTAR \n\n\n44\n\n\n1\n\n\n20\n\n\n65\n\n\n\n\nIMSS_OPD \n\n\n138\n\n\n6\n\n\n301\n\n\n445\n\n\n\n\nISSSTE \n\n\n8\n\n\n1\n\n\n21\n\n\n30\n\n\n\n\nNOTIFICANTE VOLUNTARIO\n\n\n10\n\n\n0\n\n\n16\n\n\n26\n\n\n\n\nPRIVADO \n\n\n2\n\n\n0\n\n\n0\n\n\n2\n\n\n\n\nSEDENA \n\n\n1\n\n\n0\n\n\n1\n\n\n2\n\n\n\n\nSEMAR \n\n\n2\n\n\n0\n\n\n0\n\n\n2\n\n\n\n\nSSA \n\n\n46\n\n\n8\n\n\n19\n\n\n73"
+  },
+  {
+    "objectID": "TEST.html",
+    "href": "TEST.html",
+    "title": "TEST",
+    "section": "",
+    "text": "Quarto enables you to weave together content and executable code into a finished document. To learn more about Quarto see https://quarto.org."
+  },
+  {
+    "objectID": "TEST.html#quarto",
+    "href": "TEST.html#quarto",
+    "title": "TEST",
+    "section": "",
+    "text": "Quarto enables you to weave together content and executable code into a finished document. To learn more about Quarto see https://quarto.org."
+  },
+  {
+    "objectID": "TEST.html#running-code",
+    "href": "TEST.html#running-code",
+    "title": "TEST",
+    "section": "Running Code",
+    "text": "Running Code\nWhen you click the Render button a document will be generated that includes both content and the output of embedded code. You can embed code like this:\n\n\n[1] 2\n\n\nYou can add options to executable code like this\n\n\n[1] 4\n\n\nThe echo: false option disables the printing of code (only output is displayed)."
+  }
+]

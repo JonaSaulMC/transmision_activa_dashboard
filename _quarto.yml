@@ -1,0 +1,39 @@
+project:
+  type: website
+  output-dir: _site         # ✅ Asegura que Quarto renderice en la carpeta que Netlify sirve
+  resources:
+    - figs                  # ✅ Incluye la carpeta figs en el sitio publicado
+
+website:
+  title: "Programa de Prevención y Control del Dengue | Michoacán 2025"
+  navbar:
+    left:
+      - text: Inicio
+        href: index.qmd
+      - text: Casos
+        href: casos.qmd
+      - text: Serotipos
+        href: serotipos.qmd
+      - text: Transmisión
+        href: transmision25.qmd
+    right:
+      - icon: github
+        href: https://github.com/JonaSaulMC
+  page-footer:
+    left: "© 2025 Secretaría de Salud Michoacán y Departamento de Control de Enfermedades Transmitidas por Vector y Zoonosis"
+    right: "Actualizado semanalmente"
+
+format:
+  html:
+    theme: custom.scss
+    toc: true
+    include-in-header:
+      - text: |
+          <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.js"></script>
+          <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.css" />
+
+execute:
+  echo: false       # Oculta el código fuente
+  warning: false    # Oculta advertencias
+  message: false    # Oculta mensajes de consola
+  default-language: r

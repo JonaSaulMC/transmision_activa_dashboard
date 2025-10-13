@@ -1,0 +1,97 @@
+---
+title: "Mapas de Calor, Cadenas de Transmisión y Riesgo Entomológico"
+execute:
+  freeze: false
+---
+
+```{r setup, include=FALSE}
+message("Cargando entorno para visualización...")
+
+# Cargar paquetes necesarios para mostrar resultados
+library(leaflet)
+library(htmlwidgets)
+
+# Si necesitas datos para mostrar tablas o gráficos adicionales, puedes cargar:
+load("C:/Users/JonaSMC/Documents/geocodificacion_dengue_sinave_edo16/3.geocoded_data/dengue_edo16_2025.RData")
+
+message("Entorno cargado correctamente.")
+
+```
+
+## Mapa de Calor
+
+::: {.panel-tabset}
+### Mapa de Calor Estatal
+
+<iframe src="figs/mapa_calor_estado.html" width="100%" height="600px"></iframe>
+
+:::
+
+## Cadenas de Transmisión
+
+::: {.panel-tabset}
+
+### Morelia
+<iframe src="figs/cadena_Morelia.html" width="100%" height="600px"></iframe>
+
+
+### Zamora de Hidalgo
+<iframe src="figs/cadena_Zamora_de_Hidalgo.html" width="100%" height="600px"></iframe>
+
+
+### Huetamo de Núñez
+<iframe src="figs/cadena_Huetamo_de_Núñez.html" width="100%" height="600px"></iframe>
+
+
+### Tacámbaro de Codallos
+<iframe src="figs/cadena_Tacámbaro_de_Codallos.html" width="100%" height="600px"></iframe>
+
+
+### Uruapan
+<iframe src="figs/cadena_Uruapan.html" width="100%" height="600px"></iframe>
+
+
+### La Piedad de Cabadas
+<iframe src="figs/cadena_La_Piedad_de_Cabadas.html" width="100%" height="600px"></iframe>
+
+
+### Apatzingán de la Constitución
+<iframe src="figs/cadena_Apatzingán_de_la_Constitución.html" width="100%" height="600px"></iframe>
+
+
+### Lázaro Cárdenas
+<iframe src="figs/cadena_Lázaro_Cárdenas.html" width="100%" height="600px"></iframe>
+
+:::
+
+## Riesgo Entomológico
+
+::: {.panel-tabset}
+
+### Morelia
+<iframe src="figs/riesgo_Morelia.html" width="100%" height="600px"></iframe>
+
+### Zamora de Hidalgo
+<iframe src="figs/riesgo_Zamora_De_Hidalgo.html" width="100%" height="600px"></iframe>
+
+### Huetamo de Núñez
+<iframe src="figs/riesgo_Huetamo_de_Nunez.html" width="100%" height="600px"></iframe>
+
+### Tacámbaro de Codallos
+<iframe src="figs/riesgo_Tacambaro_De_Codallos.html" width="100%" height="600px"></iframe>
+
+### Uruapan
+<iframe src="figs/riesgo_Uruapan.html" width="100%" height="600px"></iframe>
+
+### La Piedad de Cabadas
+<iframe src="figs/riesgo_La_Piedad_De_Cabadas.html" width="100%" height="600px"></iframe>
+
+### Apatzingán de la Constitución
+<iframe src="figs/riesgo_Apatzingan_De_La_Constitucion.html" width="100%" height="600px"></iframe>
+
+### Ciudad Lázaro Cárdenas
+<iframe src="figs/riesgo_Ciudad_Lazaro_Cardenas.html" width="100%" height="600px"></iframe>
+
+:::
+
+<img src="figs/banner_inicio.png" width="100%" style="margin-top:40px;" />
