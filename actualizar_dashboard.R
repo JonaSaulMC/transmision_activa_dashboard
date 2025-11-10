@@ -2,6 +2,22 @@
 
 message("🚀 Iniciando actualización del dashboard...")
 
+# Semana epidemiológica actual
+library(stringr)
+library(lubridate)
+
+semana_analizada <- isoweek(Sys.Date()) - 1
+
+# Función para sanitizar nombres
+limpiar_nombre <- function(nombre) {
+    nombre <- iconv(nombre, from = "UTF-8", to = "ASCII//TRANSLIT")
+    nombre <- tolower(nombre)
+    nombre <- gsub("[^a-z0-9]+", "_", nombre)
+    nombre <- gsub("_+", "_", nombre)
+    nombre <- gsub("^_|_$", "", nombre)
+    return(nombre)
+}
+
 # Paso 1: Ejecutar setup.R
 message("🔧 Ejecutando setup.R...")
 tryCatch({
@@ -22,29 +38,43 @@ message("✅ Renderización completada.")
 
 # Paso 3: Validar archivos HTML generados
 message("🔍 Validando archivos HTML en figs/...")
-expected_files <- c(
-    "mapa_calor_estado.html",
-    paste0("cadena_", c(
-        "Morelia", "Zamora_de_Hidalgo", "Huetamo_de_Núñez", "Tacámbaro_de_Codallos",
-        "Uruapan", "La_Piedad_de_Cabadas", "Apatzingán_de_la_Constitución", "Lázaro_Cárdenas"
-    ), ".html"),
-    paste0("riesgo_", c(
-        "Morelia", "Zamora_de_Hidalgo", "Huetamo_de_Nunez", "Tacambaro_de_Codallos",
-        "Uruapan", "La_Piedad_de_Cabadas", "Apatzingan_de_la_Constitucion", "Ciudad_Lazaro_Cardenas"
-    ), ".html")
-)
 
-existing_files <- list.files("figs", pattern = "\\.html$")
-missing_files <- setdiff(expected_files, existing_files)
+html_files <- list.files("figs", pattern = "\\.html$", full.names = TRUE)
 
-if (length(missing_files) > 0) {
-    message("⚠️ Archivos faltantes en figs/:")
-    print(missing_files)
-} else {
-    message("✅ Todos los archivos HTML esperados están presentes.")
+# Validar que contengan la semana actual
+validos <- sapply(html_files, function(path) {
+    contenido <- tryCatch(readLines(path, warn = FALSE), error = function(e) NULL)
+    if (is.null(contenido)) return(FALSE)
+    any(grepl(paste0("Semana ", semana_analizada), contenido))
+})
+
+archivos_validos <- basename(html_files[validos])
+archivos_invalidos <- basename(html_files[!validos])
+
+if (length(archivos_invalidos) > 0) {
+    message("⚠️ Archivos generados pero con semana incorrecta (no se desplegarán):")
+    print(archivos_invalidos)
 }
 
-# Paso 4: Desplegar en Netlify
+if (length(archivos_validos) > 0) {
+    message("✅ Archivos válidos con semana ", semana_analizada, ":")
+    print(archivos_validos)
+} else {
+    stop("❌ Ningún archivo válido contiene la semana actual. Revisa setup.R.")
+}
+
+# Paso 4: Verificar que estén en _site/figs
+site_figs <- "_site/figs"
+copiados <- archivos_validos %in% list.files(site_figs)
+
+if (any(!copiados)) {
+    message("⚠️ Archivos válidos que no están en _site/figs:")
+    print(archivos_validos[!copiados])
+} else {
+    message("✅ Todos los archivos válidos están presentes en _site/figs.")
+}
+
+# Paso 5: Desplegar en Netlify
 message("🌐 Desplegando en Netlify...")
 deploy_result <- tryCatch({
     system("netlify deploy --prod --dir=_site", intern = TRUE)

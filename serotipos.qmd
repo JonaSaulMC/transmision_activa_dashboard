@@ -51,41 +51,6 @@ x_serotipo <- x_raw |>
   filter(CVE_EDO_REP == "16")
 ```
 
-```{r Serotipos}
-library(tidyr)
-
-x_serotipo <- x_raw |>
-  filter(
-    ESTATUS_CASO == 2,
-    DENGUE_SER_TRIPLEX %in% 1:4,
-    !is.na(DENGUE_SER_TRIPLEX)
-  ) |>
-  mutate(
-    CVE_EDO_REP = str_pad(CVE_EDO_REP, 2, "left", "0"),
-    CVE_MPO_REP = str_pad(CVE_MPO_REP, 3, "left", "0")
-  ) |>
-  count(CVE_EDO_REP, CVE_MPO_REP, DENGUE_SER_TRIPLEX) |>
-  pivot_wider(
-    names_from = DENGUE_SER_TRIPLEX,
-    values_from = n,
-    names_prefix = "D",
-    values_fill = 0
-  ) |>
-  mutate(
-    D1_binary = ifelse(D1 > 0, 1, 0),
-    D2_binary = ifelse(D2 > 0, 1, 0),
-    D3_binary = ifelse(D3 > 0, 1, 0),
-    n_serotipo = D1_binary + D2_binary + D3_binary,
-    D1_text = ifelse(D1 > 0, "D1", ""),
-    D2_text = ifelse(D2 > 0, "D2", ""),
-    D3_text = ifelse(D3 > 0, "D3", ""),
-    serotype_combination = paste(D1_text, D2_text, D3_text, sep = "")
-  ) |>
-  select(CVE_EDO_REP, CVE_MPO_REP, D1, D2, D3, n_serotipo, serotype_combination) |>
-  filter(CVE_EDO_REP == "16")
-
-```
-
 
 ## Mapa de Serotipos por Municipio
 

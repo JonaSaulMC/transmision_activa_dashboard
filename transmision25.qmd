@@ -40,11 +40,11 @@ message("Entorno cargado correctamente.")
 
 
 ### Huetamo de Núñez
-<iframe src="figs/cadena_Huetamo_de_Núñez.html" width="100%" height="600px"></iframe>
+<iframe src="figs/cadena_Huetamo_de_Nunez.html" width="100%" height="600px"></iframe>
 
 
 ### Tacámbaro de Codallos
-<iframe src="figs/cadena_Tacámbaro_de_Codallos.html" width="100%" height="600px"></iframe>
+<iframe src="figs/cadena_Tacambaro_de_Codallos.html" width="100%" height="600px"></iframe>
 
 
 ### Uruapan
@@ -56,11 +56,11 @@ message("Entorno cargado correctamente.")
 
 
 ### Apatzingán de la Constitución
-<iframe src="figs/cadena_Apatzingán_de_la_Constitución.html" width="100%" height="600px"></iframe>
+<iframe src="figs/cadena_Apatzingan_de_la_Constitucion.html" width="100%" height="600px"></iframe>
 
 
 ### Lázaro Cárdenas
-<iframe src="figs/cadena_Lázaro_Cárdenas.html" width="100%" height="600px"></iframe>
+<iframe src="figs/cadena_Lazaro_Cardenas.html" width="100%" height="600px"></iframe>
 
 :::
 

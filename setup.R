@@ -17,24 +17,25 @@ semana_analizada <- isoweek(Sys.Date()) - 1
 # Rutas
 path_vect <- "C:/Users/JonaSMC/Documents/R-2025/16_Mich"
 path_coord <- paste(path_vect, "DescargaOvitrampasMesFco.txt", sep = "/")
+path_sinave <- "C:/Users/JonaSMC/Documents/R-2025/Descargas_SINAVE/DENGUE2_10_11_2025.txt"
 
-# Archivo SINAVE más reciente
-path_sinave <- "C:/Users/JonaSMC/Documents/R-2025/Descargas_SINAVE/DENGUE2_13_10_2025.txt"
+# Datos
 x_raw <- fread(path_sinave, encoding = "Latin-1", quote = "", fill = TRUE)
-
-# Archivo georreferenciado
-load("C:/Users/JonaSMC/Documents/geocodificacion_dengue_sinave_edo16/3.geocoded_data/dengue_edo16_2025.RData")
 z <- get(load("C:/Users/JonaSMC/Documents/geocodificacion_dengue_sinave_edo16/3.geocoded_data/dengue_edo16_2025.RData"))
 
-# Paleta para mapas
+# Paleta
 palette <- viridis::viridis
 
 message("setup.R ejecutado sin errores.")
 print(paste("Semana analizada:", semana_analizada))
 
-# Crear carpeta figs si no existe
+# Carpetas
 output_dir <- "figs"
 if (!dir.exists(output_dir)) dir.create(output_dir, recursive = TRUE)
+
+# Limpiar _site/figs
+if (dir.exists("_site/figs")) unlink("_site/figs", recursive = TRUE)
+dir.create("_site/figs", recursive = TRUE)
 
 # Función para sanitizar nombres
 limpiar_nombre <- function(nombre) {
@@ -49,9 +50,8 @@ localidades <- c(
     "URUAPAN", "LA PIEDAD DE CABADAS", "APATZINGÁN DE LA CONSTITUCIÓN", "LÁZARO CÁRDENAS"
 )
 
-# Mapa de calor estatal con leaflet
+# Mapa de calor estatal
 z_filtrado <- z[!is.na(z$long) & !is.na(z$lat), ]
-
 if (nrow(z_filtrado) > 0) {
     p_estado <- tryCatch({
         leaflet(z_filtrado) %>%
@@ -63,6 +63,9 @@ if (nrow(z_filtrado) > 0) {
     })
     
     if (!is.null(p_estado) && inherits(p_estado, "leaflet")) {
+        p_estado <- p_estado %>%
+            addControl(html = paste0("<strong>Semana ", semana_analizada, "</strong>"), position = "topright")
+        
         saveWidget(p_estado, file = file.path(output_dir, "mapa_calor_estado.html"), selfcontained = TRUE)
         message("✅ Mapa de calor estatal generado correctamente")
     } else {
@@ -75,6 +78,7 @@ if (nrow(z_filtrado) > 0) {
 # Cadenas de transmisión
 for (loc in localidades) {
     nombre_seguro <- limpiar_nombre(loc)
+    
     p <- tryCatch({
         denhotspots::transmission_chains_map(
             geocoded_dataset = z,
@@ -86,10 +90,18 @@ for (loc in localidades) {
         message("Error en cadena para ", loc, ": ", e$message)
         NULL
     })
+    
     if (!is.null(p) && inherits(p, "mapview")) {
         leaflet_obj <- tryCatch({ p@map }, error = function(e) NULL)
+        
         if (!is.null(leaflet_obj)) {
+            leaflet_obj <- leaflet_obj %>%
+                addControl(html = paste0("<strong>Semana ", semana_analizada, "</strong>"), position = "topright")
+            
             saveWidget(leaflet_obj, file = file.path(output_dir, paste0("cadena_", nombre_seguro, ".html")), selfcontained = TRUE)
+            message("✅ Cadena guardada para ", loc)
+        } else {
+            message("⚠️ No se pudo extraer el mapa de cadena para ", loc)
         }
     }
 }
@@ -131,15 +143,16 @@ for (loc in localidades_riesgo) {
         })
         
         if (!is.null(leaflet_obj)) {
+            leaflet_obj <- leaflet_obj %>%
+                addControl(html = paste0("<strong>Semana ", semana_analizada, "</strong>"), position = "topright")
+            
             saveWidget(leaflet_obj, file = file.path(output_dir, paste0("riesgo_", nombre_seguro, ".html")), selfcontained = TRUE)
             message("✅ Mapa de riesgo guardado para ", loc)
-        } else {
-            message("⚠️ No se pudo guardar el mapa para ", loc)
         }
     }
 }
 
-# Mapa de serotipos por municipio
+# Mapa de serotipos
 palette <- viridisLite::viridis(3)
 y <- rgeomex::AGEM_inegi19_mx |> filter(CVE_ENT == "16")
 
@@ -189,6 +202,23 @@ colores_serotipos <- c(
     "D1D2D3"   = "#E69F00"
 )
 
+niveles_serotipos <- names(colores_serotipos)
+
+xy_serotipo$serotype_combination <- factor(
+    xy_serotipo$serotype_combination,
+    levels = niveles_serotipos
+)
+
+# Validar combinaciones no previstas
+combinaciones_detectadas <- unique(xy_serotipo$serotype_combination)
+combinaciones_no_definidas <- setdiff(combinaciones_detectadas, niveles_serotipos)
+
+if (length(combinaciones_no_definidas) > 0) {
+    message("⚠️ Combinaciones de serotipos no definidas en la paleta:")
+    print(combinaciones_no_definidas)
+}
+
+# Generar mapa
 mapa_serotipos <- mapview(
     xy_serotipo,
     zcol = "serotype_combination",
@@ -196,19 +226,36 @@ mapa_serotipos <- mapview(
     layer.name = "Serotipos por Municipio"
 ) + mapview(y, col.regions = "gray90", layer.name = "Municipios")
 
+# Agregar semana
+mapa_serotipos@map <- mapa_serotipos@map %>%
+    addControl(html = paste0("<strong>Semana ", semana_analizada, "</strong>"), position = "topright")
+
+# Guardar mapa y datos
 saveWidget(mapa_serotipos@map, file = "figs/mapa_serotipos.html", selfcontained = TRUE)
 
-if (!dir.exists("data")) dir.create("data")
+if (!dir.exists("data")) dir.create("data", recursive = TRUE)
 save(x_raw, file = "data/x_raw.RData")
-message("✅ x_raw.RData guardado correctamente.")
+save(x_serotipo, file = "data/x_serotipo.RData")
+message("✅ x_raw.RData y x_serotipo.RData guardados correctamente.")
 
 # Copiar todos los .html a _site/figs para Netlify
 site_figs <- "_site/figs"
 if (!dir.exists(site_figs)) dir.create(site_figs, recursive = TRUE)
 
 html_files <- list.files("figs", pattern = "\\.html$", full.names = TRUE)
-file.copy(html_files, site_figs, overwrite = TRUE)
+
+copiados <- mapply(function(src, dst) {
+    file.copy(src, dst, overwrite = TRUE)
+}, html_files, file.path(site_figs, basename(html_files)))
+
+if (any(!copiados)) {
+    message("⚠️ Algunos archivos .html no se copiaron correctamente:")
+    print(basename(html_files[!copiados]))
+} else {
+    message("✅ Todos los archivos .html fueron copiados correctamente a _site/figs.")
+}
 
 message("✅ Archivos .html copiados a _site/figs para Netlify.")
 
 file.copy("figs/banner_inicio.png", "_site/figs/banner_inicio.png", overwrite = TRUE)
+
