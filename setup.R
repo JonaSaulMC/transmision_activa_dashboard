@@ -17,7 +17,7 @@ semana_analizada <- isoweek(Sys.Date()) - 1
 # Rutas
 path_vect <- "C:/Users/JonaSMC/Documents/R-2025/16_Mich"
 path_coord <- paste(path_vect, "DescargaOvitrampasMesFco.txt", sep = "/")
-path_sinave <- "C:/Users/JonaSMC/Documents/R-2025/Descargas_SINAVE/DENGUE2_10_11_2025.txt"
+path_sinave <- "C:/Users/JonaSMC/Documents/R-2025/Descargas_SINAVE/DENGUE2_15_12_2025.txt"
 
 # Datos
 x_raw <- fread(path_sinave, encoding = "Latin-1", quote = "", fill = TRUE)

@@ -1,12 +1,11 @@
 # actualizar_dashboard.R
-
 message("🚀 Iniciando actualización del dashboard...")
 
 # Semana epidemiológica actual
 library(stringr)
 library(lubridate)
 
-semana_analizada <- isoweek(Sys.Date()) - 1
+semana_analizada <- epiweek(Sys.Date()) - 1
 
 # Función para sanitizar nombres
 limpiar_nombre <- function(nombre) {

@@ -19,7 +19,7 @@ Este sistema de monitoreo epidemiológico ha sido desarrollado por el Departamen
 
 La información presentada está basada en registros del Sistema Nacional de Vigilancia Epidemiológica (SINAVE), datos georreferenciados y reportes de ovitrampas. El sistema se actualiza cada lunes y está diseñado para apoyar la toma de decisiones por parte del personal de coordinación estatal y jurisdiccional.
 
-**Última semana analizada:** Semana epidemiológica 45
+**Última semana analizada:** Semana epidemiológica 50
 **Fuente principal:** SINAVE, Sistema Integral de Monitoreo de Vectores
 
 <img src="figs/banner_inicio.png" width="100%" style="margin-top:40px;" />
